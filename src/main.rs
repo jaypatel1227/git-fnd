@@ -23,10 +23,7 @@ fn main() {
         println!("{}", search_info.len());
     }
 
-    let mut searcher = SearchInfo {
-        repos: Vec::new(),
-        base_path: args.path,
-    };
+    let mut searcher = package_info(&args.path);
 
     search_recursive(&searcher.base_path, &mut searcher.repos);
     for path in searcher.repos {
@@ -66,13 +63,11 @@ fn identify_paths(base: PathBuf, cores: u8) -> Vec<Vec<PathBuf>> {
     search_info
 }
 
-fn search_inside<'a>(path: &'a PathBuf) -> SearchInfo {
-    let results = SearchInfo {
+fn package_info(path: &PathBuf) -> SearchInfo {
+    SearchInfo {
         repos: Vec::new(),
         base_path: path.to_path_buf(),
-    };
-
-    results
+    }
 }
 
 fn search_recursive<'a>(path: &PathBuf, repos: &mut Vec<PathBuf>) {
